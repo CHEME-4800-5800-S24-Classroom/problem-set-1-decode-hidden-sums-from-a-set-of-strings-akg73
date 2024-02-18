@@ -14,10 +14,11 @@ function puzzleparse(filename::String)::Dict{Int64, MyPuzzleRecordModel}
     # main -
     open(filename, "r") do io
         for line ∈ eachline(io)
+            records[linecounter]= build(line)
+            linecounter+=1
             
-            # TODO: do something with this line of text
-
         end
+        
     end
 
     # return the header and the records -
