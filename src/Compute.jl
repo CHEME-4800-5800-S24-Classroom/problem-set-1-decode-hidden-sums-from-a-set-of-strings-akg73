@@ -25,14 +25,14 @@ function decode_part_1(models::Dict{Int64, MyPuzzleRecordModel})::Tuple{Int64, D
     for (lineNumber, model) in models  
         placeholder =model.characters
         numberarray = filter(isdigit,placeholder)
-        line_sum= numberarray[1]*numberarray[end]
-
-        @show line_sum
+        line_sum = numberarray[1]*numberarray[end]
         codes[lineNumber] = parse(Int64,line_sum)
         total+= parse(Int64,line_sum)
     end   
     return (total,codes);
 end
+
+
     #=
     for (lineNumber, model) in models  
         i= 1
@@ -77,7 +77,9 @@ function decode_part_2(models::Dict{Int64, MyPuzzleRecordModel})::Tuple{Int64, D
     # initialize -
     total = 0;
     codes = Dict{Int64, Int64}();
-     
+    for (lineNumber, model) in models  
+        placeholder = model.characters 
+        forward = replace([])
     # TODO: Add the logic for part 2 here
     # ...
      
