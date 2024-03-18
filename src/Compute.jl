@@ -14,13 +14,13 @@
 """
 function  _code_builder_part_1(model::MyPuzzleRecordModel)::Int64
     
-    placeholder =model.characters
+    placeholder = model.characters
     numberarray = filter(isdigit,placeholder)
     line_sum = numberarray[1]*numberarray[end]
     return parse(Int64,line_sum)
 end
 
- """
+"""
     _code_builder_part_2(model::MyPuzzleRecordModel) -> Int 64
 
         Computes the value of the argument, which is a coded line, for the more complex rule.
@@ -33,12 +33,33 @@ end
 
 
 """
-#=
-function _codes_builder_part_2(model::MyPuzzleRecordModel())::Int64
-    codes[lineNumber] = Int64(total_string)
-    return codes
+
+function _code_builder_part_2(model::MyPuzzleRecordModel)::Int64
+   
+
+    placeholder_record = model.record
+
+    integers = Dict("one"=> 1,"two"=> 2,"three"=> 3,"four"=> 4,
+                   "five"=> 5, "six"=> 6, "seven"=> 7, "eight"=> 8,
+                    "nine"=> 9,"zero"=> 0 )
+
+    
+    for (integer, replacement) in integers
+            if occursin(integer, placeholder_record)
+                starting_addition = string(integer[1])
+                ending_addition = string(integer[end])
+                temp = starting_addition*integer*ending_addition
+                placeholder_record = replace(placeholder_record,integer => temp)
+                placeholder_record = replace(placeholder_record,integer => replacement)
+            end
+    end
+
+    model.record = placeholder_record
+    model.characters = collect(placeholder_record)
+
+    return _code_builder_part_1(model)
 end
-=#
+
 
 
 # ===== PRIVATE METHODS ABOVE HERE =================================================================================== #
@@ -71,40 +92,6 @@ function decode_part_1(models::Dict{Int64, MyPuzzleRecordModel})::Tuple{Int64, D
 end
 
 
-    #=
-    for (lineNumber, model) in models  
-        i= 1
-        first = 0
-        last = 0
-        #this iterates the first line numebr and its respetive values includig the array
-
-        
-        for i in (model.len)
-            if isdigit(model.characters[i])
-                first = model.characters[i]
-                break
-            end
-            i=+1
-        end
-
-        revserse_array = reverse(model.characters)
-        for i in (model.len)
-            if isdigit(revserse_array[i])
-                last = reverse_array[i]
-                break
-            end
-            i=+1
-        end
-        total_string = String(first)+String(last)
-        total = total + Int64(total_string)
-
-        return codes_builder(lineNumber,total_string)
-
-    # TODO: Add the logic for part 1 here
-    # ...
-    
-    # return the total -
-    =#
 """
     decode_part_2(models::Dict{Int64, MyPuzzleRecordModel}) -> Tuple{Int64, Dict{Int64, Int64}}
    
@@ -120,17 +107,14 @@ end
 """
 function decode_part_2(models::Dict{Int64, MyPuzzleRecordModel})::Tuple{Int64, Dict{Int64, Int64}}
      
-    # initialize -
+   
     total = 0;
     codes = Dict{Int64, Int64}();
     for (lineNumber, model) in models  
-        placeholder = model.characters 
-        forward = replace([])
+        codes[lineNumber]= _code_builder_part_2(model)
+        total+= codes[lineNumber]
     end
-    # TODO: Add the logic for part 2 here
-    # ...
-     
-     # return the total -
+    
     return (total, codes);
 end
 # ===== PUBLIC METHODS ABOVE HERE ==================================================================================== #

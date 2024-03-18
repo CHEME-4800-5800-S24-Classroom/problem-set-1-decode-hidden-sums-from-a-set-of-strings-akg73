@@ -14,7 +14,7 @@ Returns a MyPuzzleRecordModel with the array characters, which contains each cha
 """
 function build_(record::String)::MyPuzzleRecordModel
     model = MyPuzzleRecordModel()
-    model.record= record
+    model.record = record
     model.len = length(record)
     model.characters = collect(record)
     return model
